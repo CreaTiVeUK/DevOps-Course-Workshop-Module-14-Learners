@@ -1,0 +1,97 @@
+{
+  "adminUserEnabled": false,
+  "anonymousPullEnabled": false,
+  "creationDate": "2022-07-12T10:49:24.878023+00:00",
+  "dataEndpointEnabled": false,
+  "dataEndpointHostNames": [],
+  "encryption": {
+    "keyVaultProperties": null,
+    "status": "disabled"
+  },
+  "id": "/subscriptions/d33b95c7-af3c-4247-9661-aa96d47fccc0/resourceGroups/StandardChartered21_SimeonPenev_Workshop/providers/Microsoft.ContainerRegistry/registries/containerregistryspcorndell",
+  "identity": null,
+  "location": "uksouth",
+  "loginServer": "containerregistryspcorndell.azurecr.io",
+  "name": "containerregistryspcorndell",
+  "networkRuleBypassOptions": "AzureServices",
+  "networkRuleSet": null,
+  "policies": {
+    "exportPolicy": {
+      "status": "enabled"
+    },
+    "quarantinePolicy": {
+      "status": "disabled"
+    },
+    "retentionPolicy": {
+      "days": 7,
+      "lastUpdatedTime": "2022-07-12T11:04:20.749285+00:00",
+      "status": "disabled"
+    },
+    "trustPolicy": {
+      "status": "disabled",
+      "type": "Notary"
+    }
+  },
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": "Enabled",
+  "resourceGroup": "StandardChartered21_SimeonPenev_Workshop",
+  "sku": {
+    "name": "Basic",
+    "tier": "Basic"
+  },
+  "status": null,
+  "systemData": {
+    "createdAt": "2022-07-12T10:49:24.878023+00:00",
+    "createdBy": "Simeon.Penev@softwireacademy.onmicrosoft.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2022-07-12T11:04:20.349265+00:00",
+    "lastModifiedBy": "Simeon.Penev@softwireacademy.onmicrosoft.com",
+    "lastModifiedByType": "User"
+  },
+  "tags": {},
+  "type": "Microsoft.ContainerRegistry/registries",
+  "zoneRedundancy": "Disabled"
+}
+
+
+
+
+DATABASE_NAME='stdchd21-simeon-penev-order-processing-db'
+DATABASE_PASSWORD='bS645fVL!4JxfPBTxKmukjMy#oQbY'
+DATABASE_USER='dbadmin'
+DB_SERVER_NAME='stdchd21-simeon-penev-order-processing-sqlserver.database.windows.net'
+ENABLE_ORYX_BUILD='true'
+FINANCE_PACKAGE_URL='https://stdchd21-simeon-penev-finance-package-app.azurewebsites.net'
+SCHEDULED_JOB_ENABLED='true'
+SCHEDULED_JOB_INTERVAL_SECONDS='15'
+SCHEDULED_JOB_MAX_INSTANCES='2'
+SCM_DO_BUILD_DURING_DEPLOYMENT='true'
+
+
+kubectl create secret generic db-user-password \
+  --from-file=username=./configs/DATABASE_NAME.txt \
+  --from-file=password=./configs/DATABASE_PASSWORD.txt
+
+
+
+
+              - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: DATABASE_NAME
+                  optional: false
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: DATABASE_PASSWORD
+                  optional: false
+
+
+
+                              - name: DATABASE_NAME
+              value: "stdchd21-simeon-penev-order-processing-db"
+            - name: DATABASE_PASSWORD
+              value: fbS645fVL!4JxfPBTxKmukjMy#oQbY

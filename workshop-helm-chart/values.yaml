@@ -1,2 +1,3 @@
 replicas: 1
 serviceName: module-14-helm
+image: containerregistryspcorndell.azurecr.io/our-image-name:v1

@@ -17,6 +17,44 @@ spec:
     spec:
       containers:
         - name: container-name
-          image: nginx
+          image: {{ .Values.image }}
           ports:
           - containerPort: 80
+          env:
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-password
+                  key: username
+                  optional: false
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-password
+                  key: password
+                  optional: false
+            - name: DATABASE_USER
+              value: "dbadmin"
+            - name: DB_SERVER_NAME
+              value: "stdchd21-simeon-penev-order-processing-sqlserver.database.windows.net"
+            - name: ENABLE_ORYX_BUILD
+              value: "true"
+            - name: FINANCE_PACKAGE_URL
+              value: "https://stdchd21-simeon-penev-finance-package-app.azurewebsites.net"
+            - name: SCHEDULED_JOB_ENABLED
+              value: "true"
+            - name: SCHEDULED_JOB_INTERVAL_SECONDS
+              value: "15"                                                    
+            - name: SCHEDULED_JOB_MAX_INSTANCES
+              value: "2"
+            - name: SCM_DO_BUILD_DURING_DEPLOYMENT
+              value: "true"                                                    
+          resources:
+              requests:
+                memory: "0.5Gi"
+                cpu: "500m"
+              limits:
+                memory: "0.5Gi"
+                cpu: "500m"
+      imagePullSecrets:
+        - name: acr-secret        
